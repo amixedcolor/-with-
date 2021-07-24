@@ -183,9 +183,9 @@ function connectNode(that) {
   // that.chorus2.connect(that.jungle_chorus2.input);
   // that.chorus3.connect(that.jungle_chorus3.input);
   that.jungle.output.connect(that.output);
-  // that.jungle_chorus1.output.connect(that.output);
-  // that.jungle_chorus2.output.connect(that.output);
-  // that.jungle_chorus3.output.connect(that.output);
+  that.jungle_chorus1.output.connect(that.output);
+  that.jungle_chorus2.output.connect(that.output);
+  that.jungle_chorus3.output.connect(that.output);
   that.output.connect(that.audioCtx.destination);
 }
 function eqSet(that) {
