@@ -15,6 +15,7 @@
     this.speed = 100;
     this.pitch = 0;
     this.chorus = 0;
+    this.lobot = 0;
     this.eqVals = new Array(10);
     this.eqVals.forEach(function(val) {
       val = 0;
@@ -131,7 +132,7 @@
     } else if (val === 1){
       text = '高音';
     } else {
-      text = '標準';
+      text = 'ボイスチェンジャーなし';
     }
     $("#voice-num").text(text);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -151,6 +152,21 @@
     $("#chorus-num").text(text);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: 'makeChorus', chorus: val});
+    });
+  });
+  $('#lobot-range').on('input', function () {
+    var val = Number($(this).val());
+    var text;
+    if (val === -1){
+      text = 'ロボット低音';
+    } else if (val === 0){
+      text = 'ロボットなし';
+    } else if (val === 1){
+      text = 'ロボット高音';
+    }
+    $("#lobot-num").text(text);
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {type: 'makeLobot', lobot: val});
     });
   });
   $('#volume-reset-btn').on('click', function () {
@@ -186,6 +202,13 @@
     $('#chorus-range').val(0);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: 'makeChorus', chorus: 0});
+    });
+  });
+  $('#lobot-reset-btn').on('click', function () {
+    $("#lobot-num").text(0);
+    $('#lobot-range').val(0);
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {type: 'mokeLobot', lobot: 0});
     });
   });
   $('#eq1').on('input', function () {
@@ -367,6 +390,9 @@ function initPrams(popup, response) {
   popup.chorus = response.chorus;
   $('#chorus-range').val(response.chorus);
   $("#chorus-num").text(response.chorus);
+  popup.lobot = response.lobot;
+  $('#lobot-range').val(response.lobot);
+  $("#lobot-num").text(response.lobot);
   response.eqVals.forEach(function (val, idx) {
     popup.eqVals[idx] = val;
     $('#eq' + (idx + 1)).val(val);
