@@ -52,7 +52,7 @@
     assignEvent(this);
 
     loadVideo(this);
-  };
+  };q
 
   // methods
   Content.prototype = {
@@ -102,45 +102,45 @@
       }
       this.jungle.setPitchOffset(pitchConvert(this.pitch), false);
     },
-    makeChorus: function(value) {
-      if (value === 0){
-        this.chorus1 = 0;
-        this.chorus2 = 0;
-        this.chorus3 = 0;
-      } else if (value === 1){
-        this.chorus1 = 3;
-        this.chorus2 = 0;
-        this.chorus3 = 0;
-      } else if (value === 2){
-        this.chorus1 = 3;
-        this.chorus2 = 6;
-        this.chorus3 = 0;
-      } else if (value === 3){
-        this.chorus1 = 3;
-        this.chorus2 = 6;
-        this.chorus3 = 9;
-      }
-      // if (value === 0){
-      //   this.chorus1.gain.value = 0;
-      //   this.chorus2.gain.value = 0;
-      //   this.chorus3.gain.value = 0;
-      // } else if (value === 1){
-      //   this.chorus1.gain.value = 1;
-      //   this.chorus2.gain.value = 0;
-      //   this.chorus3.gain.value = 0;
-      // } else if (value === 2){
-      //   this.chorus1.gain.value = 1;
-      //   this.chorus2.gain.value = 1;
-      //   this.chorus3.gain.value = 0;
-      // } else if (value === 3){
-      //   this.chorus1.gain.value = 1;
-      //   this.chorus2.gain.value = 1;
-      //   this.chorus3.gain.value = 1;
-      // }
-      this.jungle_chorus1.setPitchOffset(pitchConvert(this.chorus1), false);
-      this.jungle_chorus2.setPitchOffset(pitchConvert(this.chorus2), false);
-      this.jungle_chorus3.setPitchOffset(pitchConvert(this.chorus3), false);
-    },
+    // makeChorus: function(value) {
+    //   if (value === 0){
+    //     this.chorus1 = 0;
+    //     this.chorus2 = 0;
+    //     this.chorus3 = 0;
+    //   } else if (value === 1){
+    //     this.chorus1 = 3;
+    //     this.chorus2 = 0;
+    //     this.chorus3 = 0;
+    //   } else if (value === 2){
+    //     this.chorus1 = 3;
+    //     this.chorus2 = 6;
+    //     this.chorus3 = 0;
+    //   } else if (value === 3){
+    //     this.chorus1 = 3;
+    //     this.chorus2 = 6;
+    //     this.chorus3 = 9;
+    //   }
+    //   // if (value === 0){
+    //   //   this.chorus1.gain.value = 0;
+    //   //   this.chorus2.gain.value = 0;
+    //   //   this.chorus3.gain.value = 0;
+    //   // } else if (value === 1){
+    //   //   this.chorus1.gain.value = 1;
+    //   //   this.chorus2.gain.value = 0;
+    //   //   this.chorus3.gain.value = 0;
+    //   // } else if (value === 2){
+    //   //   this.chorus1.gain.value = 1;
+    //   //   this.chorus2.gain.value = 1;
+    //   //   this.chorus3.gain.value = 0;
+    //   // } else if (value === 3){
+    //   //   this.chorus1.gain.value = 1;
+    //   //   this.chorus2.gain.value = 1;
+    //   //   this.chorus3.gain.value = 1;
+    //   // }
+    //   this.jungle_chorus1.setPitchOffset(pitchConvert(this.chorus1), false);
+    //   this.jungle_chorus2.setPitchOffset(pitchConvert(this.chorus2), false);
+    //   this.jungle_chorus3.setPitchOffset(pitchConvert(this.chorus3), false);
+    // },
     enableLoop: function(isEnabled) {
       this.loop = isEnabled;
     },
@@ -174,18 +174,18 @@ function connectNode(that) {
   that.input.connect(that.peakings[0]);
   that.peakings[9].connect(that.pitchChangeMode);
   that.peakings[9].connect(that.nonPitchChangeMode);
-  that.peakings[9].connect(that.chorus1);
-  that.peakings[9].connect(that.chorus2);
-  that.peakings[9].connect(that.chorus3);
+  // that.peakings[9].connect(that.chorus1);
+  // that.peakings[9].connect(that.chorus2);
+  // that.peakings[9].connect(that.chorus3);
   that.pitchChangeMode.connect(that.jungle.input);
   that.nonPitchChangeMode.connect(that.output);
-  that.chorus1.connect(that.jungle_chorus1.input);
-  that.chorus2.connect(that.jungle_chorus2.input);
-  that.chorus3.connect(that.jungle_chorus3.input);
+  // that.chorus1.connect(that.jungle_chorus1.input);
+  // that.chorus2.connect(that.jungle_chorus2.input);
+  // that.chorus3.connect(that.jungle_chorus3.input);
   that.jungle.output.connect(that.output);
-  that.jungle_chorus1.output.connect(that.output);
-  that.jungle_chorus2.output.connect(that.output);
-  that.jungle_chorus3.output.connect(that.output);
+  // that.jungle_chorus1.output.connect(that.output);
+  // that.jungle_chorus2.output.connect(that.output);
+  // that.jungle_chorus3.output.connect(that.output);
   that.output.connect(that.audioCtx.destination);
 }
 function eqSet(that) {
@@ -250,7 +250,7 @@ function assignEvent(that) {
           volume: that.videoEl.volume,
           speed: that.videoEl.playbackRate,
           pitch: that.pitch,
-          chorus: that.chorus,
+          // chorus: that.chorus,
           eqVals: that.peakings.map(function(peaking) {
             return peaking.gain.value;
           })
@@ -322,11 +322,11 @@ function assignEvent(that) {
         that.changeVoice(message.pitch);
         break;
       }
-      case 'makeChorus': {
-        if (!that.hasVideo) {break;}
-        that.makeChorus(message.chorus);
-        break;
-      }
+      // case 'makeChorus': {
+      //   if (!that.hasVideo) {break;}
+      //   that.makeChorus(message.chorus);
+      //   break;
+      // }
       case 'enableLoop': {
         if (!that.hasVideo) {break;}
         that.enableLoop(message.isEnabled);

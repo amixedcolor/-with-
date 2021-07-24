@@ -14,7 +14,7 @@
     this.volume = 50;
     this.speed = 100;
     this.pitch = 0;
-    this.chorus = 0;
+    // this.chorus = 0;
     this.eqVals = new Array(10);
     this.eqVals.forEach(function(val) {
       val = 0;
@@ -138,23 +138,23 @@
       chrome.tabs.sendMessage(tabs[0].id, {type: 'changeVoice', pitch: val});
     });
   });
-  $('#chorus-range').on('input', function () {
-    var val = Number($(this).val());
-    var text;
-    if (val === 0){
-      text = '標準';
-    } else if (val === 1){
-      text = 'シングルコーラス';
-    } else if (val === 2){
-      text = 'ダブルコーラス';
-    } else if (val === 3){
-      text = 'トリプルコーラス';
-    }
-    $("#chorus-num").text(text);
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'makeChorus', chorus: val});
-    });
-  });
+  // $('#chorus-range').on('input', function () {
+  //   var val = Number($(this).val());
+  //   var text;
+  //   if (val === 0){
+  //     text = '標準';
+  //   } else if (val === 1){
+  //     text = 'シングルコーラス';
+  //   } else if (val === 2){
+  //     text = 'ダブルコーラス';
+  //   } else if (val === 3){
+  //     text = 'トリプルコーラス';
+  //   }
+  //   $("#chorus-num").text(text);
+  //   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  //     chrome.tabs.sendMessage(tabs[0].id, {type: 'makeChorus', chorus: val});
+  //   });
+  // });
   $('#volume-reset-btn').on('click', function () {
     $("#volume-num").text(50);
     $('#volume-range').val(50);
@@ -183,13 +183,13 @@
       chrome.tabs.sendMessage(tabs[0].id, {type: 'changeVoice', pitch: 0});
     });
   });
-  $('#chorus-reset-btn').on('click', function () {
-    $("#chorus-num").text(0);
-    $('#chorus-range').val(0);
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'makeChorus', chorus: 0});
-    });
-  });
+  // $('#chorus-reset-btn').on('click', function () {
+  //   $("#chorus-num").text(0);
+  //   $('#chorus-range').val(0);
+  //   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  //     chrome.tabs.sendMessage(tabs[0].id, {type: 'makeChorus', chorus: 0});
+  //   });
+  // });
   $('#eq1').on('input', function () {
     var val = Number($(this).val());
     $('#eq1-value').text(val + 'db');
@@ -366,9 +366,9 @@ function initPrams(popup, response) {
   popup.pitch = response.pitch;
   $('#pitch-range').val(response.pitch);
   $("#pitch-num").text(response.pitch);
-  popup.chorus = response.chorus;
-  $('#chorus-range').val(response.chorus);
-  $("#chorus-num").text(response.chorus);
+  // popup.chorus = response.chorus;
+  // $('#chorus-range').val(response.chorus);
+  // $("#chorus-num").text(response.chorus);
   response.eqVals.forEach(function (val, idx) {
     popup.eqVals[idx] = val;
     $('#eq' + (idx + 1)).val(val);
