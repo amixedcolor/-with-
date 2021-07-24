@@ -250,7 +250,7 @@ function assignEvent(that) {
           volume: that.videoEl.volume,
           speed: that.videoEl.playbackRate,
           pitch: that.pitch,
-          // chorus: that.chorus,
+          chorus: that.chorus,
           eqVals: that.peakings.map(function(peaking) {
             return peaking.gain.value;
           })
