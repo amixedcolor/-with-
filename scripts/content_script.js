@@ -8,6 +8,7 @@
     // Fields
     // Audio
     this.audioCtx = new AudioContext();
+    let audioCtx2 = new AudioContext();
     this.source = null;
     this.videoEl = null;
     this.input = this.audioCtx.createGain();
@@ -22,6 +23,31 @@
     this.jungle_robot1 = new Jungle(this.audioCtx);
     this.jungle_robot2 = new Jungle(this.audioCtx);
     this.output = this.audioCtx.createGain();
+    // reverb
+    let convolverBuffer = fetch('./../impulses/smooth.wav')
+      .then((res) => {
+        console.log(1)
+        res.arrayBuffer().then((res) => {
+          console.log(2)
+          console.log(res)
+          audioCtx2.decodeAudioData(res)
+          // .then((buffer) => {
+          //   console.log(3)
+          //   buffer
+          // })
+        })
+      })
+      .catch((e) => console.log(e))
+    // console.log(convolverBuffer)
+
+    // this.convolver = this.audioCtx.createConvolver();
+    // this.reverbMode = this.audioCtx.createGain();
+    // // this.response = await fetch("./../impulses/smooth.wav");
+    // // this.arraybuffer = await this.response.arrayBuffer();
+    // let res = fetch("./../impulses/smooth.wav").then(res => res)
+    // let arrayBuffer = res.then(res => res.arrayBuffer())
+    // console.log(arrayBuffer)
+    // this.convolver.buffer = await this.audioCtx.decodeAudioData(arraybuffer);
     // parameter
     this.loop = false;
     this.loopStart = 0;
@@ -30,6 +56,7 @@
     this.chorus = 0;
     this.robot1 = 0;
     this.robot2 = 0;
+    this.reverb = 0;
     // other
     this.alreadyLoaded = false;
     this.hasVideo = false;
@@ -41,6 +68,8 @@
     this.output.gain.value = 1;
     this.jungle.setPitchOffset(0, false);
     this.jungle_chorus.setPitchOffset(0, false);
+    this.jungle_robot1.setPitchOffset(0, false);
+    this.jungle_robot2.setPitchOffset(0, false);
     this.pitchChangeMode.gain.value = 0;
     this.nonPitchChangeMode.gain.value = 1;
     this.chorusMode.gain.value = 0;
@@ -124,6 +153,11 @@
       this.jungle_robot1.setPitchOffset(pitchConvert(this.robot1), false);
       this.jungle_robot2.setPitchOffset(pitchConvert(this.robot2), false);
     },
+    makeReverb: function(isReverb) {
+      if (isReverb){
+        this.reverbMode = this.convolver
+      }
+    },
     enableLoop: function(isEnabled) {
       this.loop = isEnabled;
     },
@@ -161,6 +195,9 @@ function connectNode(that) {
   that.jungle_chorus.output.connect(that.output);
   that.jungle_robot1.output.connect(that.output);
   that.jungle_robot2.output.connect(that.output);
+  //reverb
+  // that.peakings[9].connect(that.reverbMode);
+  // that.reverbMode.connect(that.output);
   that.output.connect(that.audioCtx.destination);
 }
 function eqSet(that) {
@@ -228,6 +265,7 @@ function assignEvent(that) {
           chorus: that.chorus,
           robot1: that.robot1,
           robot2: that.robot2,
+          reverb: that.reverb
         });
         that.videoEl.addEventListener('timeupdate', function() {
           // update current time
@@ -289,6 +327,11 @@ function assignEvent(that) {
       case 'makeRobot': {
         if (!that.hasVideo) {break;}
         that.makeRobot(message.robot);
+        break;
+      }
+      case 'makeReverb': {
+        if (!that.hasVideo) {break;}
+        that.makeReverb(message.reverb);
         break;
       }
       case 'enableLoop': {
