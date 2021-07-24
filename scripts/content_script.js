@@ -102,45 +102,45 @@
       }
       this.jungle.setPitchOffset(pitchConvert(this.pitch), false);
     },
-    makeChorus: function(value) {
-      if (value === 0){
-        this.chorus1 = 0;
-        this.chorus2 = 0;
-        this.chorus3 = 0;
-      } else if (value === 1){
-        this.chorus1 = 3;
-        this.chorus2 = 0;
-        this.chorus3 = 0;
-      } else if (value === 2){
-        this.chorus1 = 3;
-        this.chorus2 = 6;
-        this.chorus3 = 0;
-      } else if (value === 3){
-        this.chorus1 = 3;
-        this.chorus2 = 6;
-        this.chorus3 = 9;
-      }
-      if (value === 0){
-        this.chorus1.gain.value = 0;
-        this.chorus2.gain.value = 0;
-        this.chorus3.gain.value = 0;
-      } else if (value === 1){
-        this.chorus1.gain.value = 1;
-        this.chorus2.gain.value = 0;
-        this.chorus3.gain.value = 0;
-      } else if (value === 2){
-        this.chorus1.gain.value = 1;
-        this.chorus2.gain.value = 1;
-        this.chorus3.gain.value = 0;
-      } else if (value === 3){
-        this.chorus1.gain.value = 1;
-        this.chorus2.gain.value = 1;
-        this.chorus3.gain.value = 1;
-      }
-      this.jungle_chorus1.setPitchOffset(pitchConvert(this.chorus1), false);
-      this.jungle_chorus2.setPitchOffset(pitchConvert(this.chorus2), false);
-      this.jungle_chorus3.setPitchOffset(pitchConvert(this.chorus3), false);
-    },
+    // makeChorus: function(value) {
+    //   if (value === 0){
+    //     this.chorus1 = 0;
+    //     this.chorus2 = 0;
+    //     this.chorus3 = 0;
+    //   } else if (value === 1){
+    //     this.chorus1 = 3;
+    //     this.chorus2 = 0;
+    //     this.chorus3 = 0;
+    //   } else if (value === 2){
+    //     this.chorus1 = 3;
+    //     this.chorus2 = 6;
+    //     this.chorus3 = 0;
+    //   } else if (value === 3){
+    //     this.chorus1 = 3;
+    //     this.chorus2 = 6;
+    //     this.chorus3 = 9;
+    //   }
+    //   if (value === 0){
+    //     this.chorus1.gain.value = 0;
+    //     this.chorus2.gain.value = 0;
+    //     this.chorus3.gain.value = 0;
+    //   } else if (value === 1){
+    //     this.chorus1.gain.value = 1;
+    //     this.chorus2.gain.value = 0;
+    //     this.chorus3.gain.value = 0;
+    //   } else if (value === 2){
+    //     this.chorus1.gain.value = 1;
+    //     this.chorus2.gain.value = 1;
+    //     this.chorus3.gain.value = 0;
+    //   } else if (value === 3){
+    //     this.chorus1.gain.value = 1;
+    //     this.chorus2.gain.value = 1;
+    //     this.chorus3.gain.value = 1;
+    //   }
+    //   this.jungle_chorus1.setPitchOffset(pitchConvert(this.chorus1), false);
+    //   this.jungle_chorus2.setPitchOffset(pitchConvert(this.chorus2), false);
+    //   this.jungle_chorus3.setPitchOffset(pitchConvert(this.chorus3), false);
+    // },
     enableLoop: function(isEnabled) {
       this.loop = isEnabled;
     },
