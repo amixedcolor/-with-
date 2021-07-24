@@ -72,9 +72,9 @@
     },
     changeVoice: function(value) {
       if (value <= -1){
-        this.pitch = -10
+        this.pitch = -20
       } else if (value >= 1){
-        this.pitch = 10
+        this.pitch = 20
       } else {
         this.pitch = 0
       }
