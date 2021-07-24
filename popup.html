@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href="./styles/normalize.css" rel="stylesheet">
+  <link href="./lib/nouislider.min.css" rel="stylesheet">
+  <link href="./styles/popup.css" rel="stylesheet">
+</head>
+<body>
+<div class="main-flex">
+  <div class="header">
+    <span class="title">Tube Mania</span>
+  </div>
+  <div class="seek-bar-area">
+    <div class="duration-text">
+      <span id="current-time">0:00</span> / <span id="duration">0:00</span>
+    </div>
+    <input type="range" min="0" max="1" value="0" id="seek-bar-range" class="seek-bar-range">
+    <div class="loop-slider-area">
+      <div id="slider"></div>
+    </div>
+    <div class="loop-control-area">
+      <div class="loop-text">
+        <span class="loop-title">LoopStart:</span> <span id="loop-start-num">0:00</span> ~ <span class="loop-title">LoopEnd:</span> <span id="loop-end-num">0:00</span>
+      </div>
+      <div class="loop-on-off">
+        <div class="repeat-icn">
+          <object data="./svg/repeat.svg" type="image/svg+xml">
+          </object>
+        </div>
+        <div class="switch-flex">
+          <input id="loop-switch" type="checkbox">
+          <div id="loop-slider" class="switch-slider"></div>
+          <div class="switch-label switch-pre-label"><span class="switch-text">Off</span></div>
+          <div class="switch-label switch-post-label"><span class="switch-text">On</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="controller-flex">
+    <div class="btn-flex">
+      <div class="back-btn-flex">
+        <div id="replay-five-btn" class="btn back-btn">
+          <object data="./svg/replay_5.svg" type="image/svg+xml">
+          </object>
+        </div>
+        <div id="replay-ten-btn" class="btn back-btn">
+          <object data="./svg/replay_10.svg" type="image/svg+xml">
+          </object>
+        </div>
+        <div id="replay-fifteen-btn" class="btn back-btn">
+          <object data="./svg/replay_30.svg" type="image/svg+xml">
+          </object>
+        </div>
+      </div>
+      <div id="play-btn" class="btn play-btn">
+        <object data="./svg/play.svg" type="image/svg+xml" id="play-btn-svg">
+        </object>
+        <object data="./svg/pause.svg" type="image/svg+xml" id="pause-btn-svg">
+        </object>
+      </div>
+    </div>
+    <div class="range-flex">
+      <div class="range-wrapper">
+        <div class="range-head-flex">
+          <div class="range-label">
+            <label>Volume: </label>
+            <span id="volume-num">50</span>
+          </div>
+          <div id="volume-reset-btn" class="btn reset-btn">RESET</div>
+        </div>
+        <div class="range-main">
+          <input id="volume-range" type="range" class="control-range" min="0" max="100" value="50">
+        </div>
+      </div>
+      <div class="range-wrapper">
+        <div class="range-head-flex">
+          <div class="range-label">
+            <label>Speed: </label>
+            <span id="speed-num">x1</span>
+          </div>
+          <div id="speed-reset-btn" class="btn reset-btn">RESET</div>
+        </div>
+        <div class="range-main">
+          <input id="speed-range" type="range" class="control-range" min="50" max="150" value="100">
+        </div>
+      </div>
+      <div class="range-wrapper">
+        <div class="range-head-flex">
+          <div class="range-label">
+            <label>Pitch: </label>
+            <span id="pitch-num">0</span>
+          </div>
+          <div id="pitch-reset-btn" class="btn reset-btn">RESET</div>
+        </div>
+        <div class="range-main">
+          <input id="pitch-range" type="range" class="control-range" min="-12" max="12" value="0">
+        </div>
+      </div>
+      <div class="range-wrapper">
+        <div class="range-head-flex">
+          <div class="range-label">
+            <label>Voice: </label>
+            <span id="voice-num">0</span>
+          </div>
+          <div id="voice-reset-btn" class="btn reset-btn">RESET</div>
+        </div>
+        <div class="range-main">
+          <input id="voice-range" type="range" class="control-range" min="-1" max="1" value="0">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="pf-area">
+    <div class="piano">
+      <a class="key" data-note="48"></a>
+      <a class="key key--black" data-note="49"></a>
+      <a class="key" data-note="50"></a>
+      <a class="key key--black" data-note="51"></a>
+      <a class="key" data-note="52"></a>
+      <a class="key" data-note="53"></a>
+      <a class="key key--black" data-note="54"></a>
+      <a class="key" data-note="55"></a>
+      <a class="key key--black" data-note="56"></a>
+      <a class="key" data-note="57"></a>
+      <a class="key key--black" data-note="58"></a>
+      <a class="key" data-note="59"></a>
+      <a class="key" data-note="60"></a>
+      <a class="key key--black" data-note="61"></a>
+      <a class="key" data-note="62"></a>
+      <a class="key key--black" data-note="63"></a>
+      <a class="key" data-note="64"></a>
+      <a class="key" data-note="65"></a>
+      <a class="key key--black" data-note="66"></a>
+      <a class="key" data-note="67"></a>
+      <a class="key key--black" data-note="68"></a>
+      <a class="key" data-note="69"></a>
+      <a class="key key--black" data-note="70"></a>
+      <a class="key" data-note="71"></a>
+      <a class="key" data-note="72"></a>
+      <a class="key key--black" data-note="73"></a>
+      <a class="key" data-note="74"></a>
+      <a class="key key--black" data-note="75"></a>
+      <a class="key" data-note="76"></a>
+      <a class="key" data-note="77"></a>
+      <a class="key key--black" data-note="78"></a>
+      <a class="key" data-note="79"></a>
+      <a class="key key--black" data-note="80"></a>
+      <a class="key" data-note="81"></a>
+      <a class="key key--black" data-note="82"></a>
+      <a class="key" data-note="83"></a>
+      <a class="key" data-note="84"></a>
+      <a class="key key--black" data-note="85"></a>
+      <a class="key" data-note="86"></a>
+      <a class="key key--black" data-note="87"></a>
+      <a class="key" data-note="88"></a>
+      <a class="key" data-note="89"></a>
+      <a class="key key--black" data-note="90"></a>
+      <a class="key" data-note="91"></a>
+      <a class="key key--black" data-note="92"></a>
+      <a class="key" data-note="93"></a>
+      <a class="key key--black" data-note="94"></a>
+      <a class="key" data-note="95"></a>
+      <a class="key" data-note="96"></a>
+    </div>
+    <div class="octave-selector">
+      <div class="octave-selector__block" data-octave="3"></div>
+      <div class="octave-selector__block octave-selector__block--active" data-octave="4"></div>
+      <div class="octave-selector__block" data-octave="5"></div>
+      <div class="octave-selector__block" data-octave="6"></div>
+    </div>
+    <div class="piano-volume-wrap">
+      <div class="range-label">
+        <label>pf-Volume: </label>
+        <span id="piano-volume-num">10</span>
+      </div>
+      <input id="piano-volume" type="range" class="control-range" min="0" max="100" value="10">
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="eq-header">
+    <div class="eq-title">Equalizer</div>
+    <div id="eq-reset-btn" class="btn reset-btn">RESET</div>
+  </div>
+  <div class="eq-box">
+    <div class="each-eq">
+      <input id="eq1" type="range" class="control-range" min="-16" max="16" value="0">
+    </div>
+    <div class="each-eq">
+      <input id="eq2" type="range" class="control-range" min="-16" max="16" value="0">
+    </div>
+    <div class="each-eq">
+      <input id="eq3" type="range" class="control-range" min="-16" max="16" value="0">
+    </div>
+    <div class="each-eq">
+      <input id="eq4" type="range" class="control-range" min="-16" max="16" value="0">
+    </div>
+    <div class="each-eq">
+      <input id="eq5" type="range" class="control-range" min="-16" max="16" value="0">
+    </div>
+    <div class="each-eq">
+      <input id="eq6" type="range" class="control-range" min="-16" max="16" value="0">
+    </div>
+    <div class="each-eq">
+      <input id="eq7" type="range" class="control-range" min="-16" max="16" value="0">
+    </div>
+    <div class="each-eq">
+      <input id="eq8" type="range" class="control-range" min="-16" max="16" value="0">
+    </div>
+    <div class="each-eq">
+      <input id="eq9" type="range" class="control-range" min="-16" max="16" value="0">
+    </div>
+    <div class="each-eq">
+      <input id="eq10" type="range" class="control-range" min="-16" max="16" value="0">
+    </div>
+  </div>
+</div>
+<div class="eq-value-area">
+  <div class="eq-value">
+    <div>32Hz</div>
+    <div id="eq1-value">0db</div>
+  </div>
+  <div class="eq-value">
+    <div>64Hz</div>
+    <div id="eq2-value">0db</div>
+  </div>
+  <div class="eq-value">
+    <div>125Hz</div>
+    <div id="eq3-value">0db</div>
+  </div>
+  <div class="eq-value">
+    <div>250Hz</div>
+    <div id="eq4-value">0db</div>
+  </div>
+  <div class="eq-value">
+    <div>500Hz</div>
+    <div id="eq5-value">0db</div>
+  </div>
+  <div class="eq-value">
+    <div>1kHz</div>
+    <div id="eq6-value">0db</div>
+  </div>
+  <div class="eq-value">
+    <div>2kHz</div>
+    <div id="eq7-value">0db</div>
+  </div>
+  <div class="eq-value">
+    <div>4kHz</div>
+    <div id="eq8-value">0db</div>
+  </div>
+  <div class="eq-value">
+    <div>8kHz</div>
+    <div id="eq9-value">0db</div>
+  </div>
+  <div class="eq-value">
+    <div>16kHz</div>
+    <div id="eq10-value">0db</div>
+  </div>
+</div>
+<div class="footer">
+  <span class="copy-right">Copyright © 2017 Naotaka Nakane All Rights Reserved.</span>
+</div>
+<script src="./lib/jquery-3.2.1.min.js"></script>
+<script src="./lib/nouislider.min.js"></script>
+<script src="./scripts/popup.js"></script>
+<script src="./scripts/piano.js"></script>
+</body>
+</html>
