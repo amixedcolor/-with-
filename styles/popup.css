@@ -488,8 +488,6 @@ EQ area
 footer
  */
 .footer {
-  position: absolute;
-  bottom: 0;
   width: 640px;
   height: 70px;
   padding: 0 15px;
