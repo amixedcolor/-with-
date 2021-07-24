@@ -322,11 +322,11 @@ function assignEvent(that) {
         that.changeVoice(message.pitch);
         break;
       }
-      // case 'makeChorus': {
-      //   if (!that.hasVideo) {break;}
-      //   that.makeChorus(message.chorus);
-      //   break;
-      // }
+      case 'makeChorus': {
+        if (!that.hasVideo) {break;}
+        that.makeChorus(message.chorus);
+        break;
+      }
       case 'enableLoop': {
         if (!that.hasVideo) {break;}
         that.enableLoop(message.isEnabled);
