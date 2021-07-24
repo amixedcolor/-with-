@@ -15,7 +15,7 @@
     this.speed = 100;
     this.pitch = 0;
     this.chorus = 0;
-    this.lobot = 0;
+    this.robot = 0;
     this.slider = document.getElementById('slider');
     noUiSlider.create(this.slider, {
       start: [this.loopStart, this.loopEnd],
@@ -84,42 +84,6 @@
     }
     popup.isPaused = !popup.isPaused;
   });
-  $('#replay-five-btn').on('click', function () {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'back', seconds: 5});
-    });
-  });
-  $('#replay-ten-btn').on('click', function () {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'back', seconds: 10});
-    });
-  });
-  $('#replay-fifteen-btn').on('click', function () {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'back', seconds: 30});
-    });
-  });
-  $('#volume-range').on('input', function () {
-    var val = Number($(this).val());
-    $("#volume-num").text(val);
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'changeVolume', volume: val / 100});
-    });
-  });
-  $('#speed-range').on('input', function () {
-    var val = Number($(this).val());
-    $("#speed-num").text('x' + val / 100);
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'changeSpeed', speed: val / 100});
-    });
-  });
-  $('#pitch-range').on('input', function () {
-    var val = Number($(this).val());
-    $("#pitch-num").text(val);
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'changePitch', pitch: val});
-    });
-  });
   $('#voice-range').on('input', function () {
     var val = Number($(this).val());
     var text;
@@ -150,7 +114,7 @@
       chrome.tabs.sendMessage(tabs[0].id, {type: 'makeChorus', chorus: val});
     });
   });
-  $('#lobot-range').on('input', function () {
+  $('#robot-range').on('input', function () {
     var val = Number($(this).val());
     var text;
     if (val === -1){
@@ -160,51 +124,30 @@
     } else if (val === 1){
       text = 'ロボット高音';
     }
-    $("#lobot-num").text(text);
+    $("#robot-num").text(text);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'makeLobot', lobot: val});
-    });
-  });
-  $('#volume-reset-btn').on('click', function () {
-    $("#volume-num").text(50);
-    $('#volume-range').val(50);
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'changeVolume', volume: 50 / 100});
-    });
-  });
-  $('#speed-reset-btn').on('click', function () {
-    $("#speed-num").text('x' + 100 / 100);
-    $('#speed-range').val(100);
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'changeSpeed', speed: 100 / 100});
-    });
-  });
-  $('#pitch-reset-btn').on('click', function () {
-    $("#pitch-num").text(0);
-    $('#pitch-range').val(0);
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'changePitch', pitch: 0});
+      chrome.tabs.sendMessage(tabs[0].id, {type: 'makeRobot', robot: val});
     });
   });
   $('#voice-reset-btn').on('click', function () {
-    $("#voice-num").text(0);
+    $("#voice-num").text('ボイスチェンジャーなし');
     $('#voice-range').val(0);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: 'changeVoice', pitch: 0});
     });
   });
   $('#chorus-reset-btn').on('click', function () {
-    $("#chorus-num").text(0);
+    $("#chorus-num").text('コーラスなし');
     $('#chorus-range').val(0);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: 'makeChorus', chorus: 0});
     });
   });
-  $('#lobot-reset-btn').on('click', function () {
-    $("#lobot-num").text(0);
-    $('#lobot-range').val(0);
+  $('#robot-reset-btn').on('click', function () {
+    $("#robot-num").text('ロボットなし');
+    $('#robot-range').val(0);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'mokeLobot', lobot: 0});
+      chrome.tabs.sendMessage(tabs[0].id, {type: 'makeRobot', robot: 0});
     });
   });
   popup.slider.noUiSlider.on('update', function(values, handle) {
@@ -295,21 +238,15 @@ function initPrams(popup, response) {
     $('#play-btn-svg').css('display', 'none');
     $('#pause-btn-svg').css('display', 'inline');
   }
-  popup.volume = response.volume * 100;
-  $('#volume-range').val(response.volume * 100);
-  $("#volume-num").text(Math.floor(response.volume * 100));
-  popup.speed = response.speed * 100;
-  $('#speed-range').val(response.speed * 100);
-  $("#speed-num").text('x' + response.speed);
   popup.pitch = response.pitch;
   $('#pitch-range').val(response.pitch);
   $("#pitch-num").text(response.pitch);
   popup.chorus = response.chorus;
   $('#chorus-range').val(response.chorus);
   $("#chorus-num").text(response.chorus);
-  popup.lobot = response.lobot;
-  $('#lobot-range').val(response.lobot);
-  $("#lobot-num").text(response.lobot);
+  popup.robot = response.robot;
+  $('#robot-range').val(response.robot);
+  $("#robot-num").text(response.robot);
 }
 
 function convertSeconds(rawSeconds) {

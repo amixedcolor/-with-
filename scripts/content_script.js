@@ -15,12 +15,12 @@
     this.nonPitchChangeMode = this.audioCtx.createGain();
     this.pitchChangeMode = this.audioCtx.createGain();
     this.chorusMode = this.audioCtx.createGain();
-    this.lobotMode1 = this.audioCtx.createGain();
-    this.lobotMode2 = this.audioCtx.createGain();
+    this.robotMode1 = this.audioCtx.createGain();
+    this.robotMode2 = this.audioCtx.createGain();
     this.jungle = new Jungle(this.audioCtx);
     this.jungle_chorus = new Jungle(this.audioCtx);
-    this.jungle_lobot1 = new Jungle(this.audioCtx);
-    this.jungle_lobot2 = new Jungle(this.audioCtx);
+    this.jungle_robot1 = new Jungle(this.audioCtx);
+    this.jungle_robot2 = new Jungle(this.audioCtx);
     this.output = this.audioCtx.createGain();
     // parameter
     this.loop = false;
@@ -28,8 +28,8 @@
     this.loopEnd = 1;
     this.pitch = 0;
     this.chorus = 0;
-    this.lobot1 = 0;
-    this.lobot2 = 0;
+    this.robot1 = 0;
+    this.robot2 = 0;
     // other
     this.alreadyLoaded = false;
     this.hasVideo = false;
@@ -44,8 +44,8 @@
     this.pitchChangeMode.gain.value = 0;
     this.nonPitchChangeMode.gain.value = 1;
     this.chorusMode.gain.value = 0;
-    this.lobotMode1.gain.value = 0;
-    this.lobotMode2.gain.value = 0;
+    this.robotMode1.gain.value = 0;
+    this.robotMode2.gain.value = 0;
 
     assignEvent(this);
 
@@ -100,29 +100,29 @@
       }
       this.jungle_chorus.setPitchOffset(pitchConvert(this.chorus), false);
     },
-    makeLobot: function(value) {
+    makeRobot: function(value) {
       if (value === -1){
-        this.lobot1 = -3
-        this.lobot2 = -6
+        this.robot1 = -3
+        this.robot2 = -6
       } else if (value === 0){
-        this.lobot1 = 0
-        this.lobot2 = 0
+        this.robot1 = 0
+        this.robot2 = 0
       } else if (value === 1){
-        this.lobot1 = 3
-        this.lobot2 = 6
+        this.robot1 = 3
+        this.robot2 = 6
       }
       if (value === -1){
-        this.lobotMode1.gain.value = 1;
-        this.lobotMode2.gain.value = 1;
+        this.robotMode1.gain.value = 1;
+        this.robotMode2.gain.value = 1;
       } else if (value === 0){
-        this.lobotMode1.gain.value = 0;
-        this.lobotMode2.gain.value = 0;
+        this.robotMode1.gain.value = 0;
+        this.robotMode2.gain.value = 0;
       } else if (value === 1){
-        this.lobotMode1.gain.value = 1;
-        this.lobotMode2.gain.value = 1;
+        this.robotMode1.gain.value = 1;
+        this.robotMode2.gain.value = 1;
       }
-      this.jungle_lobot1.setPitchOffset(pitchConvert(this.lobot1), false);
-      this.jungle_lobot2.setPitchOffset(pitchConvert(this.lobot2), false);
+      this.jungle_robot1.setPitchOffset(pitchConvert(this.robot1), false);
+      this.jungle_robot2.setPitchOffset(pitchConvert(this.robot2), false);
     },
     enableLoop: function(isEnabled) {
       this.loop = isEnabled;
@@ -150,17 +150,17 @@ function connectNode(that) {
   that.peakings[9].connect(that.pitchChangeMode);
   that.peakings[9].connect(that.nonPitchChangeMode);
   that.peakings[9].connect(that.chorusMode);
-  that.peakings[9].connect(that.lobotMode1);
-  that.peakings[9].connect(that.lobotMode2);
+  that.peakings[9].connect(that.robotMode1);
+  that.peakings[9].connect(that.robotMode2);
   that.pitchChangeMode.connect(that.jungle.input);
   that.nonPitchChangeMode.connect(that.output);
   that.chorusMode.connect(that.jungle_chorus.input);
-  that.lobotMode1.connect(that.jungle_lobot1.input);
-  that.lobotMode2.connect(that.jungle_lobot2.input);
+  that.robotMode1.connect(that.jungle_robot1.input);
+  that.robotMode2.connect(that.jungle_robot2.input);
   that.jungle.output.connect(that.output);
   that.jungle_chorus.output.connect(that.output);
-  that.jungle_lobot1.output.connect(that.output);
-  that.jungle_lobot2.output.connect(that.output);
+  that.jungle_robot1.output.connect(that.output);
+  that.jungle_robot2.output.connect(that.output);
   that.output.connect(that.audioCtx.destination);
 }
 function eqSet(that) {
@@ -226,8 +226,8 @@ function assignEvent(that) {
           speed: that.videoEl.playbackRate,
           pitch: that.pitch,
           chorus: that.chorus,
-          lobot1: that.lobot1,
-          lobot2: that.lobot2,
+          robot1: that.robot1,
+          robot2: that.robot2,
         });
         that.videoEl.addEventListener('timeupdate', function() {
           // update current time
@@ -286,9 +286,9 @@ function assignEvent(that) {
         that.makeChorus(message.chorus);
         break;
       }
-      case 'makeLobot': {
+      case 'makeRobot': {
         if (!that.hasVideo) {break;}
-        that.makeLobot(message.lobot);
+        that.makeRobot(message.Robot);
         break;
       }
       case 'enableLoop': {
