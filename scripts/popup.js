@@ -124,7 +124,15 @@
   });
   $('#voice-range').on('input', function () {
     var val = Number($(this).val());
-    $("#voice-num").text(val);
+    var text;
+    if (val === -1){
+      text = '低音';
+    } else if (val === 1){
+      text = '高音';
+    } else {
+      text = '標準';
+    }
+    $("#voice-num").text(text);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: 'changeVoice', pitch: val});
     });
