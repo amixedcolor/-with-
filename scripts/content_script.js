@@ -47,6 +47,7 @@
     this.chorusMode.gain.value = 0;
     this.robotMode1.gain.value = 0;
     this.robotMode2.gain.value = 0;
+    this.panner.coneOuterGain = 1;
 
     assignEvent(this);
 
