@@ -94,11 +94,11 @@
     },
     makeChorus: function(value) {
       if (value === -1){
-        this.chorus = -2;
+        this.chorus = -3;
       } else if (value === 0){
         this.chorus = 0;
       } else if (value === 1){
-        this.chorus = 2;
+        this.chorus = 3;
       }
       if (value === -1){
         this.chorusMode.gain.value = 0.5;
