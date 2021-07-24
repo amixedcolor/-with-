@@ -45,9 +45,9 @@
     this.jungle_chorus3.setPitchOffset(0, false);
     this.pitchChangeMode.gain.value = 0;
     this.nonPitchChangeMode.gain.value = 1;
-    this.chorus1.gain.value = 0;
-    this.chorus2.gain.value = 0;
-    this.chorus3.gain.value = 0;
+    // this.chorus1.gain.value = 0;
+    // this.chorus2.gain.value = 0;
+    // this.chorus3.gain.value = 0;
 
     assignEvent(this);
 
