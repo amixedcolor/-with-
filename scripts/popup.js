@@ -141,14 +141,12 @@
   $('#chorus-range').on('input', function () {
     var val = Number($(this).val());
     var text;
-    if (val === 0){
-      text = '標準';
+    if (val === -1){
+      text = '下コーラス';
+    } else if (val === 0){
+      text = 'コーラスなし';
     } else if (val === 1){
-      text = 'シングルコーラス';
-    } else if (val === 2){
-      text = 'ダブルコーラス';
-    } else if (val === 3){
-      text = 'トリプルコーラス';
+      text = '上コーラス';
     }
     $("#chorus-num").text(text);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
