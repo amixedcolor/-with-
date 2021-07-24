@@ -182,9 +182,9 @@ function connectNode(that) {
   that.chorus1.connect(that.jungle_chorus1.input);
   that.chorus2.connect(that.jungle_chorus2.input);
   that.chorus3.connect(that.jungle_chorus3.input);
-  that.jungle.output.connect(that.output);
-  that.jungle_chorus1.output.connect(that.output);
-  that.jungle_chorus2.output.connect(that.output);
+  that.jungle.output.connect(that.jungle_chorus1);
+  that.jungle_chorus1.output.connect(that.jungle_chorus2);
+  that.jungle_chorus2.output.connect(that.jungle_chorus3);
   that.jungle_chorus3.output.connect(that.output);
   that.output.connect(that.audioCtx.destination);
 }
