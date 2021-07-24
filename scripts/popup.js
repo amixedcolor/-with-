@@ -366,9 +366,9 @@ function initPrams(popup, response) {
   popup.pitch = response.pitch;
   $('#pitch-range').val(response.pitch);
   $("#pitch-num").text(response.pitch);
-  // popup.chorus = response.chorus;
-  // $('#chorus-range').val(response.chorus);
-  // $("#chorus-num").text(response.chorus);
+  popup.chorus = response.chorus;
+  $('#chorus-range').val(response.chorus);
+  $("#chorus-num").text(response.chorus);
   response.eqVals.forEach(function (val, idx) {
     popup.eqVals[idx] = val;
     $('#eq' + (idx + 1)).val(val);
