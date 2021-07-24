@@ -22,6 +22,7 @@
     this.jungle_chorus = new Jungle(this.audioCtx);
     this.jungle_robot1 = new Jungle(this.audioCtx);
     this.jungle_robot2 = new Jungle(this.audioCtx);
+    this.panner = this.audioCtx.createStereoPanner();
     this.output = this.audioCtx.createGain();
     // reverb
     let convolverBuffer = fetch('./../impulses/smooth.wav')
@@ -75,6 +76,7 @@
     this.chorusMode.gain.value = 0;
     this.robotMode1.gain.value = 0;
     this.robotMode2.gain.value = 0;
+    this.panner.coneOuterGain = 1;
 
     assignEvent(this);
 
@@ -158,6 +160,9 @@
         this.reverbMode = this.convolver
       }
     },
+    make3DSound: function(value) {
+      this.panner.pan.value = value;
+    },
     enableLoop: function(isEnabled) {
       this.loop = isEnabled;
     },
@@ -198,7 +203,10 @@ function connectNode(that) {
   //reverb
   // that.peakings[9].connect(that.reverbMode);
   // that.reverbMode.connect(that.output);
-  that.output.connect(that.audioCtx.destination);
+  // that.output.connect(that.audioCtx.destination);
+  // that.output.connect(that.audioCtx.destination);
+  that.output.connect(that.panner);
+  that.panner.connect(that.audioCtx.destination);
 }
 function eqSet(that) {
   var frequency = 31.25;
@@ -265,7 +273,8 @@ function assignEvent(that) {
           chorus: that.chorus,
           robot1: that.robot1,
           robot2: that.robot2,
-          reverb: that.reverb
+          reverb: that.reverb,
+          sound3D: that.sound3D,
         });
         that.videoEl.addEventListener('timeupdate', function() {
           // update current time
@@ -332,6 +341,11 @@ function assignEvent(that) {
       case 'makeReverb': {
         if (!that.hasVideo) {break;}
         that.makeReverb(message.reverb);
+        break;
+      }
+      case 'make3DSound': {
+        if (!that.hasVideo) {break;}
+        that.make3DSound(message.sound3D);
         break;
       }
       case 'enableLoop': {

@@ -17,6 +17,7 @@
     this.chorus = 0;
     this.robot = 0;
     this.reverb = 0;
+    this.sound3D = 0;
     this.slider = document.getElementById('slider');
     noUiSlider.create(this.slider, {
       start: [this.loopStart, this.loopEnd],
@@ -143,6 +144,14 @@
       chrome.tabs.sendMessage(tabs[0].id, {type: 'makeReverb', reverb: val});
     });
   });
+  $('#3DSound-range').on('input', function () {
+    var val = Number($(this).val());
+    val /= 100;
+    $("#3DSound-num").text(val);
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {type: 'make3DSound', sound3D: val});
+    });
+  });
   $('#voice-reset-btn').on('click', function () {
     $("#voice-num").text('ボイスチェンジャーなし');
     $('#voice-range').val(0);
@@ -169,6 +178,11 @@
     $('#reverb-range').val(0);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: 'makeReverb', reverb: 0});
+  $('#3DSound-reset-btn').on('click', function () {
+    $("#3DSound-num").text('立体音響なし');
+    $('#3DSound-range').val(0);
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {type: 'make3DSound', sound3D: 0});
     });
   });
   popup.slider.noUiSlider.on('update', function(values, handle) {
@@ -271,6 +285,9 @@ function initPrams(popup, response) {
   popup.reverb = response.reverb;
   $('#reverb-range').val(response.reverb);
   $("#reverb-num").text(response.reverb);
+  popup.sound3D = response.sound3D;
+  $('#3DSound-range').val(response.sound3D);
+  $("#3DSound-num").text(response.sound3D);
 }
 
 function convertSeconds(rawSeconds) {
