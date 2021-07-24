@@ -178,6 +178,8 @@
     $('#reverb-range').val(0);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: 'makeReverb', reverb: 0});
+    });
+  });
   $('#3DSound-reset-btn').on('click', function () {
     $("#3DSound-num").text('立体音響なし');
     $('#3DSound-range').val(0);

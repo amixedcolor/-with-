@@ -31,7 +31,11 @@
         res.arrayBuffer().then((res) => {
           console.log(2)
           console.log(res)
-          audioCtx2.decodeAudioData(res)
+          audioCtx2.decodeAudioData(res,(buf) => {
+            console.log(3)
+          },(e) => {
+          console.log(e)
+          })
           // .then((buffer) => {
           //   console.log(3)
           //   buffer
