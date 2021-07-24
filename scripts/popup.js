@@ -14,7 +14,7 @@
     this.volume = 50;
     this.speed = 100;
     this.pitch = 0;
-    // this.chorus = 0;
+    this.chorus = 0;
     this.eqVals = new Array(10);
     this.eqVals.forEach(function(val) {
       val = 0;
