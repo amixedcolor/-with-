@@ -253,6 +253,11 @@ function assignEvent(that) {
         that.changePitch(message.pitch);
         break;
       }
+      case 'changeVoice': {
+        if (!that.hasVideo) {break;}
+        that.changeVoice(message.pitch);
+        break;
+      }
       case 'enableLoop': {
         if (!that.hasVideo) {break;}
         that.enableLoop(message.isEnabled);
