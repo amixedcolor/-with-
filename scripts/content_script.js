@@ -101,11 +101,11 @@
         this.chorus = 2;
       }
       if (value === -1){
-        this.chorusMode.gain.value = 1;
+        this.chorusMode.gain.value = 0.5;
       } else if (value === 0){
         this.chorusMode.gain.value = 0;
       } else if (value === 1){
-        this.chorusMode.gain.value = 1;
+        this.chorusMode.gain.value = 0.5;
       }
       this.jungle_chorus.setPitchOffset(pitchConvert(this.chorus), false);
     },
