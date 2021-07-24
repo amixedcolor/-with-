@@ -288,7 +288,7 @@ function assignEvent(that) {
       }
       case 'makeRobot': {
         if (!that.hasVideo) {break;}
-        that.makeRobot(message.Robot);
+        that.makeRobot(message.robot);
         break;
       }
       case 'enableLoop': {
