@@ -29,7 +29,7 @@ body {
   font-family: Lato, "Noto Sans JP", "游ゴシック Medium", "游ゴシック体", "Yu Gothic Medium", YuGothic, "ヒラギノ角ゴ ProN", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
   font-size: 1.4rem;
   line-height: 1.4;
-  color: #212121;
+  color: #222121;
   position: relative; }
 
 input[type="range"] {
@@ -113,7 +113,7 @@ main layout
 
 .divider {
   width: 100%;
-  background-color: #BDBDBD;
+  background-color: #ff8a8a;
   height: 1px; }
 
 /**
