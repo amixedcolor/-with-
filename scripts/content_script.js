@@ -52,7 +52,7 @@
     assignEvent(this);
 
     loadVideo(this);
-  };q
+  };
 
   // methods
   Content.prototype = {
