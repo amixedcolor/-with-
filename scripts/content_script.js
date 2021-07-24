@@ -66,23 +66,6 @@
     changeTime: function(seconds) {
       this.videoEl.currentTime = seconds;
     },
-    changeVolume: function(volume) {
-      this.videoEl.volume = volume;
-    },
-    changeSpeed: function(speed) {
-      this.videoEl.playbackRate = speed;
-    },
-    changePitch: function(pitch) {
-      this.pitch = pitch;
-      if (pitch === 0){
-        this.nonPitchChangeMode.gain.value = 1;
-        this.pitchChangeMode.gain.value = 0;
-      } else {
-        this.nonPitchChangeMode.gain.value = 0;
-        this.pitchChangeMode.gain.value = 1;
-      }
-      this.jungle.setPitchOffset(pitchConvert(pitch), false);
-    },
     changeVoice: function(value) {
       if (value <= -1){
         this.pitch = -20
@@ -149,14 +132,6 @@
     },
     setLoopEnd: function(seconds) {
       this.loopEnd = seconds;
-    },
-    changeEq: function(zoneIdx, gain) {
-      this.peakings[zoneIdx].gain.value = gain;
-    },
-    resetEq: function() {
-      this.peakings.forEach(function (peaking) {
-        peaking.gain.value = 0;
-      });
     }
   };
 
@@ -253,9 +228,6 @@ function assignEvent(that) {
           chorus: that.chorus,
           lobot1: that.lobot1,
           lobot2: that.lobot2,
-          eqVals: that.peakings.map(function(peaking) {
-            return peaking.gain.value;
-          })
         });
         that.videoEl.addEventListener('timeupdate', function() {
           // update current time
@@ -304,21 +276,6 @@ function assignEvent(that) {
         that.changeTime(message.seconds);
         break;
       }
-      case 'changeVolume': {
-        if (!that.hasVideo) {break;}
-        that.changeVolume(message.volume);
-        break;
-      }
-      case 'changeSpeed': {
-        if (!that.hasVideo) {break;}
-        that.changeSpeed(message.speed);
-        break;
-      }
-      case 'changePitch': {
-        if (!that.hasVideo) {break;}
-        that.changePitch(message.pitch);
-        break;
-      }
       case 'changeVoice': {
         if (!that.hasVideo) {break;}
         that.changeVoice(message.pitch);
@@ -347,16 +304,6 @@ function assignEvent(that) {
       case 'setLoopEnd': {
         if (!that.hasVideo) {break;}
         that.setLoopEnd(message.seconds);
-        break;
-      }
-      case 'changeEq': {
-        if (!that.hasVideo) {break;}
-        that.changeEq(message.zoneIdx, message.gain);
-        break;
-      }
-      case 'resetEq': {
-        if (!that.hasVideo) {break;}
-        that.resetEq();
         break;
       }
     }

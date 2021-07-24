@@ -16,10 +16,6 @@
     this.pitch = 0;
     this.chorus = 0;
     this.lobot = 0;
-    this.eqVals = new Array(10);
-    this.eqVals.forEach(function(val) {
-      val = 0;
-    });
     this.slider = document.getElementById('slider');
     noUiSlider.create(this.slider, {
       start: [this.loopStart, this.loopEnd],
@@ -211,85 +207,6 @@
       chrome.tabs.sendMessage(tabs[0].id, {type: 'mokeLobot', lobot: 0});
     });
   });
-  $('#eq1').on('input', function () {
-    var val = Number($(this).val());
-    $('#eq1-value').text(val + 'db');
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'changeEq', zoneIdx: 0, gain: val});
-    });
-  });
-  $('#eq2').on('input', function () {
-    var val = Number($(this).val());
-    $('#eq2-value').text(val + 'db');
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'changeEq', zoneIdx: 1, gain: val});
-    });
-  });
-  $('#eq3').on('input', function () {
-    var val = Number($(this).val());
-    $('#eq3-value').text(val + 'db');
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'changeEq', zoneIdx: 2, gain: val});
-    });
-  });
-  $('#eq4').on('input', function () {
-    var val = Number($(this).val());
-    $('#eq4-value').text(val + 'db');
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'changeEq', zoneIdx: 3, gain: val});
-    });
-  });
-  $('#eq5').on('input', function () {
-    var val = Number($(this).val());
-    $('#eq5-value').text(val + 'db');
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'changeEq', zoneIdx: 4, gain: val});
-    });
-  });
-  $('#eq6').on('input', function () {
-    var val = Number($(this).val());
-    $('#eq6-value').text(val + 'db');
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'changeEq', zoneIdx: 5, gain: val});
-    });
-  });
-  $('#eq7').on('input', function () {
-    var val = Number($(this).val());
-    $('#eq7-value').text(val + 'db');
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'changeEq', zoneIdx: 6, gain: val});
-    });
-  });
-  $('#eq8').on('input', function () {
-    var val = Number($(this).val());
-    $('#eq8-value').text(val + 'db');
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'changeEq', zoneIdx: 7, gain: val});
-    });
-  });
-  $('#eq9').on('input', function () {
-    var val = Number($(this).val());
-    $('#eq9-value').text(val + 'db');
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'changeEq', zoneIdx: 8, gain: val});
-    });
-  });
-  $('#eq10').on('input', function () {
-    var val = Number($(this).val());
-    $('#eq10-value').text(val + 'db');
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'changeEq', zoneIdx: 9, gain: val});
-    });
-  });
-  $('#eq-reset-btn').on('click', function () {
-    for (var i = 0; i < 10; i++) {
-      $('#eq' + (i + 1)).val(0);
-      $('#eq' + (i + 1) + '-value').text(0 + 'db');
-    }
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'resetEq'});
-    });
-  });
   popup.slider.noUiSlider.on('update', function(values, handle) {
     if (handle === 0) {
       $("#loop-start-num").text(convertSeconds(values[0]));
@@ -393,11 +310,6 @@ function initPrams(popup, response) {
   popup.lobot = response.lobot;
   $('#lobot-range').val(response.lobot);
   $("#lobot-num").text(response.lobot);
-  response.eqVals.forEach(function (val, idx) {
-    popup.eqVals[idx] = val;
-    $('#eq' + (idx + 1)).val(val);
-    $('#eq' + (idx + 1) + '-value').text(val + 'db');
-  });
 }
 
 function convertSeconds(rawSeconds) {
