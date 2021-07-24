@@ -21,6 +21,7 @@
     this.jungle_chorus = new Jungle(this.audioCtx);
     this.jungle_robot1 = new Jungle(this.audioCtx);
     this.jungle_robot2 = new Jungle(this.audioCtx);
+    this.panner = this.audioCtx.createStereoPanner();
     this.output = this.audioCtx.createGain();
     // parameter
     this.loop = false;
@@ -124,6 +125,11 @@
       this.jungle_robot1.setPitchOffset(pitchConvert(this.robot1), false);
       this.jungle_robot2.setPitchOffset(pitchConvert(this.robot2), false);
     },
+    make3DSound: function(value) {
+      this.panner.pan.value = value;
+    },
+
+
     enableLoop: function(isEnabled) {
       this.loop = isEnabled;
     },
@@ -161,7 +167,9 @@ function connectNode(that) {
   that.jungle_chorus.output.connect(that.output);
   that.jungle_robot1.output.connect(that.output);
   that.jungle_robot2.output.connect(that.output);
-  that.output.connect(that.audioCtx.destination);
+  // that.output.connect(that.audioCtx.destination);
+  that.output.connect(that.panner);
+  that.panner.connect(that.audioCtx.destination);
 }
 function eqSet(that) {
   var frequency = 31.25;
@@ -228,6 +236,7 @@ function assignEvent(that) {
           chorus: that.chorus,
           robot1: that.robot1,
           robot2: that.robot2,
+          sound3D: that.sound3D,
         });
         that.videoEl.addEventListener('timeupdate', function() {
           // update current time
@@ -289,6 +298,11 @@ function assignEvent(that) {
       case 'makeRobot': {
         if (!that.hasVideo) {break;}
         that.makeRobot(message.robot);
+        break;
+      }
+      case 'make3DSound': {
+        if (!that.hasVideo) {break;}
+        that.make3DSound(message.sound3D);
         break;
       }
       case 'enableLoop': {
