@@ -20,5 +20,7 @@
     "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqNy3kYL6DVsD0PfMvoE+y8464C3uR3Jbn+UNF8GppYW5JXoyPaPsflUpM0712RB2ry4GqH4VJk3l3/+0BU2YlTyHn2rSCjivUTt3kSRGt2kpDszg0Ar8q0o044MLSIb4Flju8I66zPhouD1hvy83sQYtgb8WHSpwtfuunMzs/TMhXyLcnwDCHyZbfBehQqCAYqfW4aJohf0XPy3hTxhjJvMIn6tjsxRpn7e51wV8IgfLVNxgcnK5843Totujb7zmRALaOkwAJTEeSyaAzaDzjogIe/zUvZhkPLr0PC7cwe+Az6CeUO4dhUJlL0ONlnSgEB/+k9KwhZ9Rpqi01N+GdwIDAQAB",
     "manifest_version": 2,
     "name": "tube-effect",
+    "permissions": [ "tabs", "webNavigation", "https://www.youtube.com/*" ],
+    "update_url": "https://clients2.google.com/service/update2/crx",
     "version": "1.1.0"
 }
