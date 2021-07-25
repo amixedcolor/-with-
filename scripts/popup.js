@@ -16,7 +16,7 @@
     this.pitch = 0;
     this.chorus = 0;
     this.robot = 0;
-    this.reverb = 0;
+    this.delay = 0;
     this.sound3D = 0;
     this.slider = document.getElementById('slider');
     noUiSlider.create(this.slider, {
@@ -131,25 +131,26 @@
       chrome.tabs.sendMessage(tabs[0].id, {type: 'makeRobot', robot: val});
     });
   });
-  $('#reverb-range').on('input', function () {
+  $('#delay-range').on('input', function () {
     var val = Number($(this).val());
+    val /= 10;
     var text;
     if (val === 0){
-      text = 'リバーブなし';
-    } else if (val === 1){
-      text = 'リバーブあり';
+      text = 'なし';
+    } else {
+      text = 'ディレイ '+val;
     }
-    $("#reverb-num").text(text);
+    $("#delay-num").text(text);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'makeReverb', reverb: val});
+      chrome.tabs.sendMessage(tabs[0].id, {type: 'makeDelay', delay: val});
     });
   });
   $('#3DSound-range').on('input', function () {
     var val = Number($(this).val());
     val /= 100;
     var text;
-    if (val == 0){
-      text = ''+val;
+    if (val === 0){
+      text = 'なし';
     } else if (val < 0){
       text = '左 '+Math.abs(val);
     } else if (val > 0){
@@ -181,15 +182,15 @@
       chrome.tabs.sendMessage(tabs[0].id, {type: 'makeRobot', robot: 0});
     });
   });
-  $('#reverb-reset-btn').on('click', function () {
-    $("#reverb-num").text('リバーブなし');
-    $('#reverb-range').val(0);
+  $('#delay-reset-btn').on('click', function () {
+    $("#delay-num").text('なし');
+    $('#delay-range').val(0);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: 'makeReverb', reverb: 0});
+      chrome.tabs.sendMessage(tabs[0].id, {type: 'makeDelay', delay: 0});
     });
   });
   $('#3DSound-reset-btn').on('click', function () {
-    $("#3DSound-num").text('0');
+    $("#3DSound-num").text('なし');
     $('#3DSound-range').val(0);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: 'make3DSound', sound3D: 0});
@@ -292,9 +293,9 @@ function initPrams(popup, response) {
   popup.robot = response.robot;
   $('#robot-range').val(response.robot);
   $("#robot-num").text(response.robot);
-  popup.reverb = response.reverb;
-  $('#reverb-range').val(response.reverb);
-  $("#reverb-num").text(response.reverb);
+  popup.delay = response.delay;
+  $('#delay-range').val(response.delay);
+  $("#delay-num").text(response.delay);
   popup.sound3D = response.sound3D;
   $('#3DSound-range').val(response.sound3D);
   $("#3DSound-num").text(response.sound3D);
