@@ -12,8 +12,8 @@
     this.videoEl = null;
     this.input = this.audioCtx.createGain();
     this.peakings = new Array(10);
-    this.nonPitchChangeNode = this.audioCtx.createGain();
-    this.pitchChangeNode = this.audioCtx.createGain();
+    this.nonPitchChangeMode = this.audioCtx.createGain();
+    this.pitchChangeMode = this.audioCtx.createGain();
     this.chorusNode = this.audioCtx.createGain();
     this.robotNode1 = this.audioCtx.createGain();
     this.robotNode2 = this.audioCtx.createGain();
@@ -24,7 +24,10 @@
     this.panner = this.audioCtx.createStereoPanner();
     this.output = this.audioCtx.createGain();
     // delay
-    this.delayNode = audioCtx.createDelay(5.0);
+    this.delayNode = this.audioCtx.createDelay(5.0);
+    this.synthSource = this.audioCtx.createBufferSource();
+    this.nonMakeDelayMode = this.audioCtx.createGain();
+    this.MakeDelayMode = this.audioCtx.createGain();
     // parameter
     this.loop = false;
     this.loopStart = 0;
@@ -47,8 +50,8 @@
     this.jungle_chorus.setPitchOffset(0, false);
     this.jungle_robot1.setPitchOffset(0, false);
     this.jungle_robot2.setPitchOffset(0, false);
-    this.pitchChangeNode.gain.value = 0;
-    this.nonPitchChangeNode.gain.value = 1;
+    this.pitchChangeMode.gain.value = 0;
+    this.nonPitchChangeMode.gain.value = 1;
     this.chorusNode.gain.value = 0;
     this.robotNode1.gain.value = 0;
     this.robotNode2.gain.value = 0;
@@ -82,11 +85,11 @@
         this.pitch = 0
       }
       if (value === 0){
-        this.nonPitchChangeNode.gain.value = 1;
-        this.pitchChangeNode.gain.value = 0;
+        this.nonPitchChangeMode.gain.value = 1;
+        this.pitchChangeMode.gain.value = 0;
       } else {
-        this.nonPitchChangeNode.gain.value = 0;
-        this.pitchChangeNode.gain.value = 1;
+        this.nonPitchChangeMode.gain.value = 0;
+        this.pitchChangeMode.gain.value = 1;
       }
       this.jungle.setPitchOffset(pitchConvert(this.pitch), false);
     },
@@ -131,8 +134,8 @@
       this.jungle_robot1.setPitchOffset(pitchConvert(this.robot1), false);
       this.jungle_robot2.setPitchOffset(pitchConvert(this.robot2), false);
     },
-    makeReverb: function(isReverb) {
-      if (isReverb){
+    makeDelay: function(value) {
+      if (value === 0){
         this.reverbNode = this.convolver
       }
     },
@@ -162,13 +165,13 @@
 function connectNode(that) {
   eqSet(that);
   that.input.connect(that.peakings[0]);
-  that.peakings[9].connect(that.pitchChangeNode);
-  that.peakings[9].connect(that.nonPitchChangeNode);
+  that.peakings[9].connect(that.pitchChangeMode);
+  that.peakings[9].connect(that.nonPitchChangeMode);
   that.peakings[9].connect(that.chorusNode);
   that.peakings[9].connect(that.robotNode1);
   that.peakings[9].connect(that.robotNode2);
-  that.pitchChangeNode.connect(that.jungle.input);
-  that.nonPitchChangeNode.connect(that.output);
+  that.pitchChangeMode.connect(that.jungle.input);
+  that.nonPitchChangeMode.connect(that.output);
   that.chorusNode.connect(that.jungle_chorus.input);
   that.robotNode1.connect(that.jungle_robot1.input);
   that.robotNode2.connect(that.jungle_robot2.input);
