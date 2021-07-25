@@ -6,21 +6,20 @@
     "browser_action": {
        "default_icon": "icon/icon-16.png",
        "default_popup": "popup.html",
-       "default_title": "tube-mania"
+       "default_title": "Hack-Tube"
     },
     "content_scripts": [ {
        "js": [ "lib/jungle.js", "scripts/content_script.js" ],
        "matches": [ "https://www.youtube.com/*" ]
     } ],
-    "description": "enable pitch-shift, time-stretch, equalizing and loop-play on YouTube",
+    "description": "Hack sound on YouTube. You can change voice, make chorus, robot, electric and 3d sound.",
     "icons": {
        "128": "icon/icon-128.png",
        "16": "icon/icon-16.png"
     },
-    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqNy3kYL6DVsD0PfMvoE+y8464C3uR3Jbn+UNF8GppYW5JXoyPaPsflUpM0712RB2ry4GqH4VJk3l3/+0BU2YlTyHn2rSCjivUTt3kSRGt2kpDszg0Ar8q0o044MLSIb4Flju8I66zPhouD1hvy83sQYtgb8WHSpwtfuunMzs/TMhXyLcnwDCHyZbfBehQqCAYqfW4aJohf0XPy3hTxhjJvMIn6tjsxRpn7e51wV8IgfLVNxgcnK5843Totujb7zmRALaOkwAJTEeSyaAzaDzjogIe/zUvZhkPLr0PC7cwe+Az6CeUO4dhUJlL0ONlnSgEB/+k9KwhZ9Rpqi01N+GdwIDAQAB",
     "manifest_version": 2,
-    "name": "tube-effect",
+    "name": "Hack-Tube",
     "permissions": [ "tabs", "webNavigation", "https://www.youtube.com/*" ],
     "update_url": "https://clients2.google.com/service/update2/crx",
-    "version": "1.1.0"
+    "version": "1.0.0"
 }
