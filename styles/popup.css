@@ -103,6 +103,7 @@ main layout
 }
 
 .main-flex {
+  background-color: #f0f2f0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -127,7 +128,8 @@ main layout
 }
 
 .seek-bar-flex {
-  margin-top: 20px;
+  margin-top: 12px;
+  margin-bottom: 12px;
   width: 90%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -380,7 +382,10 @@ btn section
 controller range
  */
 .range-flex {
-  margin: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
