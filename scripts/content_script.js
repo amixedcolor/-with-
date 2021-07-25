@@ -8,51 +8,23 @@
     // Fields
     // Audio
     this.audioCtx = new AudioContext();
-    let audioCtx2 = new AudioContext();
     this.source = null;
     this.videoEl = null;
     this.input = this.audioCtx.createGain();
     this.peakings = new Array(10);
-    this.nonPitchChangeMode = this.audioCtx.createGain();
-    this.pitchChangeMode = this.audioCtx.createGain();
-    this.chorusMode = this.audioCtx.createGain();
-    this.robotMode1 = this.audioCtx.createGain();
-    this.robotMode2 = this.audioCtx.createGain();
+    this.nonPitchChangeNode = this.audioCtx.createGain();
+    this.pitchChangeNode = this.audioCtx.createGain();
+    this.chorusNode = this.audioCtx.createGain();
+    this.robotNode1 = this.audioCtx.createGain();
+    this.robotNode2 = this.audioCtx.createGain();
     this.jungle = new Jungle(this.audioCtx);
     this.jungle_chorus = new Jungle(this.audioCtx);
     this.jungle_robot1 = new Jungle(this.audioCtx);
     this.jungle_robot2 = new Jungle(this.audioCtx);
     this.panner = this.audioCtx.createStereoPanner();
     this.output = this.audioCtx.createGain();
-    // reverb
-    let convolverBuffer = fetch('./../impulses/smooth.wav')
-      .then((res) => {
-        console.log(1)
-        res.arrayBuffer().then((res) => {
-          console.log(2)
-          console.log(res)
-          audioCtx2.decodeAudioData(res,(buf) => {
-            console.log(3)
-          },(e) => {
-          console.log(e)
-          })
-          // .then((buffer) => {
-          //   console.log(3)
-          //   buffer
-          // })
-        })
-      })
-      .catch((e) => console.log(e))
-    // console.log(convolverBuffer)
-
-    // this.convolver = this.audioCtx.createConvolver();
-    // this.reverbMode = this.audioCtx.createGain();
-    // // this.response = await fetch("./../impulses/smooth.wav");
-    // // this.arraybuffer = await this.response.arrayBuffer();
-    // let res = fetch("./../impulses/smooth.wav").then(res => res)
-    // let arrayBuffer = res.then(res => res.arrayBuffer())
-    // console.log(arrayBuffer)
-    // this.convolver.buffer = await this.audioCtx.decodeAudioData(arraybuffer);
+    // delay
+    this.delayNode = audioCtx.createDelay(5.0);
     // parameter
     this.loop = false;
     this.loopStart = 0;
@@ -75,11 +47,11 @@
     this.jungle_chorus.setPitchOffset(0, false);
     this.jungle_robot1.setPitchOffset(0, false);
     this.jungle_robot2.setPitchOffset(0, false);
-    this.pitchChangeMode.gain.value = 0;
-    this.nonPitchChangeMode.gain.value = 1;
-    this.chorusMode.gain.value = 0;
-    this.robotMode1.gain.value = 0;
-    this.robotMode2.gain.value = 0;
+    this.pitchChangeNode.gain.value = 0;
+    this.nonPitchChangeNode.gain.value = 1;
+    this.chorusNode.gain.value = 0;
+    this.robotNode1.gain.value = 0;
+    this.robotNode2.gain.value = 0;
     this.panner.coneOuterGain = 1;
 
     assignEvent(this);
@@ -110,11 +82,11 @@
         this.pitch = 0
       }
       if (value === 0){
-        this.nonPitchChangeMode.gain.value = 1;
-        this.pitchChangeMode.gain.value = 0;
+        this.nonPitchChangeNode.gain.value = 1;
+        this.pitchChangeNode.gain.value = 0;
       } else {
-        this.nonPitchChangeMode.gain.value = 0;
-        this.pitchChangeMode.gain.value = 1;
+        this.nonPitchChangeNode.gain.value = 0;
+        this.pitchChangeNode.gain.value = 1;
       }
       this.jungle.setPitchOffset(pitchConvert(this.pitch), false);
     },
@@ -127,11 +99,11 @@
         this.chorus = 3;
       }
       if (value === -1){
-        this.chorusMode.gain.value = 0.5;
+        this.chorusNode.gain.value = 0.5;
       } else if (value === 0){
-        this.chorusMode.gain.value = 0;
+        this.chorusNode.gain.value = 0;
       } else if (value === 1){
-        this.chorusMode.gain.value = 0.5;
+        this.chorusNode.gain.value = 0.5;
       }
       this.jungle_chorus.setPitchOffset(pitchConvert(this.chorus), false);
     },
@@ -147,21 +119,21 @@
         this.robot2 = 6
       }
       if (value === -1){
-        this.robotMode1.gain.value = 1;
-        this.robotMode2.gain.value = 1;
+        this.robotNode1.gain.value = 1;
+        this.robotNode2.gain.value = 1;
       } else if (value === 0){
-        this.robotMode1.gain.value = 0;
-        this.robotMode2.gain.value = 0;
+        this.robotNode1.gain.value = 0;
+        this.robotNode2.gain.value = 0;
       } else if (value === 1){
-        this.robotMode1.gain.value = 1;
-        this.robotMode2.gain.value = 1;
+        this.robotNode1.gain.value = 1;
+        this.robotNode2.gain.value = 1;
       }
       this.jungle_robot1.setPitchOffset(pitchConvert(this.robot1), false);
       this.jungle_robot2.setPitchOffset(pitchConvert(this.robot2), false);
     },
     makeReverb: function(isReverb) {
       if (isReverb){
-        this.reverbMode = this.convolver
+        this.reverbNode = this.convolver
       }
     },
     make3DSound: function(value) {
@@ -190,23 +162,23 @@
 function connectNode(that) {
   eqSet(that);
   that.input.connect(that.peakings[0]);
-  that.peakings[9].connect(that.pitchChangeMode);
-  that.peakings[9].connect(that.nonPitchChangeMode);
-  that.peakings[9].connect(that.chorusMode);
-  that.peakings[9].connect(that.robotMode1);
-  that.peakings[9].connect(that.robotMode2);
-  that.pitchChangeMode.connect(that.jungle.input);
-  that.nonPitchChangeMode.connect(that.output);
-  that.chorusMode.connect(that.jungle_chorus.input);
-  that.robotMode1.connect(that.jungle_robot1.input);
-  that.robotMode2.connect(that.jungle_robot2.input);
+  that.peakings[9].connect(that.pitchChangeNode);
+  that.peakings[9].connect(that.nonPitchChangeNode);
+  that.peakings[9].connect(that.chorusNode);
+  that.peakings[9].connect(that.robotNode1);
+  that.peakings[9].connect(that.robotNode2);
+  that.pitchChangeNode.connect(that.jungle.input);
+  that.nonPitchChangeNode.connect(that.output);
+  that.chorusNode.connect(that.jungle_chorus.input);
+  that.robotNode1.connect(that.jungle_robot1.input);
+  that.robotNode2.connect(that.jungle_robot2.input);
   that.jungle.output.connect(that.output);
   that.jungle_chorus.output.connect(that.output);
   that.jungle_robot1.output.connect(that.output);
   that.jungle_robot2.output.connect(that.output);
   //reverb
-  // that.peakings[9].connect(that.reverbMode);
-  // that.reverbMode.connect(that.output);
+  // that.peakings[9].connect(that.reverbNode);
+  // that.reverbNode.connect(that.output);
   // that.output.connect(that.audioCtx.destination);
   // that.output.connect(that.audioCtx.destination);
   that.output.connect(that.panner);
