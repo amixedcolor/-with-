@@ -24,35 +24,7 @@
     this.jungle_robot2 = new Jungle(this.audioCtx);
     this.panner = this.audioCtx.createStereoPanner();
     this.output = this.audioCtx.createGain();
-    // reverb
-    let convolverBuffer = fetch('./../impulses/smooth.wav')
-      .then((res) => {
-        console.log(1)
-        res.arrayBuffer().then((res) => {
-          console.log(2)
-          console.log(res)
-          audioCtx2.decodeAudioData(res,(buf) => {
-            console.log(3)
-          },(e) => {
-          console.log(e)
-          })
-          // .then((buffer) => {
-          //   console.log(3)
-          //   buffer
-          // })
-        })
-      })
-      .catch((e) => console.log(e))
-    // console.log(convolverBuffer)
-
-    // this.convolver = this.audioCtx.createConvolver();
-    // this.reverbMode = this.audioCtx.createGain();
-    // // this.response = await fetch("./../impulses/smooth.wav");
-    // // this.arraybuffer = await this.response.arrayBuffer();
-    // let res = fetch("./../impulses/smooth.wav").then(res => res)
-    // let arrayBuffer = res.then(res => res.arrayBuffer())
-    // console.log(arrayBuffer)
-    // this.convolver.buffer = await this.audioCtx.decodeAudioData(arraybuffer);
+    // delay
     // parameter
     this.loop = false;
     this.loopStart = 0;
