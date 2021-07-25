@@ -133,14 +133,14 @@
   });
   $('#delay-range').on('input', function () {
     var val = Number($(this).val());
-    val /= 10;
     var text;
-    if (val === 0){
+    if (val === 89){
       text = 'なし';
     } else {
-      text = 'ディレイ '+val;
+      text = 'ディレイ '+(val-89);
     }
     $("#delay-num").text(text);
+    val = val > 89 ? val/100 : 0;
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: 'makeDelay', delay: val});
     });

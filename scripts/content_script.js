@@ -191,7 +191,7 @@ function connectNode(that) {
   that.jungle_robot2.output.connect(that.output);
   that.output.connect(that.panner);
   // delay
-  that.panner.connect(that.delayNode).connect(that.audioCtx.destination);
+  that.panner.connect(that.delayNode).connect(that.wetlevel).connect(that.audioCtx.destination);
   that.delayNode.connect(that.feedback).connect(that.delayNode);
   that.panner.connect(that.drylevel).connect(that.audioCtx.destination)
 }
