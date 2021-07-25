@@ -94,7 +94,7 @@
     } else if (val === 1){
       text = '高音';
     } else {
-      text = 'ボイスチェンジャーなし';
+      text = 'なし';
     }
     $("#voice-num").text(text);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -107,7 +107,7 @@
     if (val === -1){
       text = '下コーラス';
     } else if (val === 0){
-      text = 'コーラスなし';
+      text = 'なし';
     } else if (val === 1){
       text = '上コーラス';
     }
@@ -122,7 +122,7 @@
     if (val === -1){
       text = 'ロボット低音';
     } else if (val === 0){
-      text = 'ロボットなし';
+      text = 'なし';
     } else if (val === 1){
       text = 'ロボット高音';
     }
@@ -147,27 +147,35 @@
   $('#3DSound-range').on('input', function () {
     var val = Number($(this).val());
     val /= 100;
-    $("#3DSound-num").text(val);
+    var text;
+    if (val == 0){
+      text = ''+val;
+    } else if (val < 0){
+      text = '左 '+Math.abs(val);
+    } else if (val > 0){
+      text = '右 '+val;
+    }
+    $("#3DSound-num").text(text);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: 'make3DSound', sound3D: val});
     });
   });
   $('#voice-reset-btn').on('click', function () {
-    $("#voice-num").text('ボイスチェンジャーなし');
+    $("#voice-num").text('なし');
     $('#voice-range').val(0);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: 'changeVoice', pitch: 0});
     });
   });
   $('#chorus-reset-btn').on('click', function () {
-    $("#chorus-num").text('コーラスなし');
+    $("#chorus-num").text('なし');
     $('#chorus-range').val(0);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: 'makeChorus', chorus: 0});
     });
   });
   $('#robot-reset-btn').on('click', function () {
-    $("#robot-num").text('ロボットなし');
+    $("#robot-num").text('なし');
     $('#robot-range').val(0);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: 'makeRobot', robot: 0});
@@ -181,7 +189,7 @@
     });
   });
   $('#3DSound-reset-btn').on('click', function () {
-    $("#3DSound-num").text('立体音響なし');
+    $("#3DSound-num").text('0');
     $('#3DSound-range').val(0);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: 'make3DSound', sound3D: 0});
