@@ -23,11 +23,19 @@
     this.jungle_robot2 = new Jungle(this.audioCtx);
     this.panner = this.audioCtx.createStereoPanner();
     this.output = this.audioCtx.createGain();
+    this.output2 = this.audioCtx.createGain();
     // delay
     this.delayNode = this.audioCtx.createDelay(5.0);
+    this.wetlevel = this.audioCtx.createGain();
+    this.drylevel = this.audioCtx.createGain();
+    this.feedback = this.audioCtx.createGain();
+    this.buffer = this.audioCtx.createBuffer(2, 88200, 44100);
     this.synthSource = this.audioCtx.createBufferSource();
-    this.nonMakeDelayMode = this.audioCtx.createGain();
-    this.MakeDelayMode = this.audioCtx.createGain();
+    this.synthSource.buffer = this.buffer;
+    this.synthSource.loop = true;
+    this.synthSource.start()
+    this.nonDelayMode = this.audioCtx.createGain();
+    this.delayMode = this.audioCtx.createGain();
     // parameter
     this.loop = false;
     this.loopStart = 0;
@@ -46,16 +54,23 @@
     // default settings
     this.input.gain.value = 1;
     this.output.gain.value = 1;
+    this.output2.gain.value = 1;
     this.jungle.setPitchOffset(0, false);
     this.jungle_chorus.setPitchOffset(0, false);
     this.jungle_robot1.setPitchOffset(0, false);
     this.jungle_robot2.setPitchOffset(0, false);
-    this.pitchChangeMode.gain.value = 0;
     this.nonPitchChangeMode.gain.value = 1;
+    this.pitchChangeMode.gain.value = 0;
     this.chorusNode.gain.value = 0;
     this.robotNode1.gain.value = 0;
     this.robotNode2.gain.value = 0;
     this.panner.coneOuterGain = 1;
+    // delay
+    this.feedback.gain.value = 0;
+    this.wetlevel.gain.value = 0;
+    this.drylevel.gain.value = 0;
+    this.nonDelayMode.gain.value = 1;
+    this.delayMode.gain.value = 0;
 
     assignEvent(this);
 
@@ -135,9 +150,26 @@
       this.jungle_robot2.setPitchOffset(pitchConvert(this.robot2), false);
     },
     makeDelay: function(value) {
-      if (value === 0){
-        this.reverbNode = this.convolver
+      if (value === -1){
+        this.feedback.gain.value = 0.85;
+        this.wetlevel.gain.value = 0.4;
+        this.drylevel.gain.value = 0.6;
+        this.nonDelayMode.gain.value = 0;
+        this.delayMode.gain.value = 1;
+      } else if (value === 0){
+        this.feedback.gain.value = 0;
+        this.wetlevel.gain.value = 0;
+        this.drylevel.gain.value = 0;
+        this.nonDelayMode.gain.value = 1;
+        this.delayMode.gain.value = 0;
+      } else if (value === 1){
+        this.feedback.gain.value = 0.95;
+        this.wetlevel.gain.value = 0.4;
+        this.drylevel.gain.value = 0.6;
+        this.nonDelayMode.gain.value = 0;
+        this.delayMode.gain.value = 1;
       }
+      
     },
     make3DSound: function(value) {
       this.panner.pan.value = value;
@@ -164,6 +196,7 @@
 
 function connectNode(that) {
   eqSet(that);
+  that.synthSource.connect(that.input);
   that.input.connect(that.peakings[0]);
   that.peakings[9].connect(that.pitchChangeMode);
   that.peakings[9].connect(that.nonPitchChangeMode);
@@ -179,13 +212,12 @@ function connectNode(that) {
   that.jungle_chorus.output.connect(that.output);
   that.jungle_robot1.output.connect(that.output);
   that.jungle_robot2.output.connect(that.output);
-  //reverb
-  // that.peakings[9].connect(that.reverbNode);
-  // that.reverbNode.connect(that.output);
-  // that.output.connect(that.audioCtx.destination);
-  // that.output.connect(that.audioCtx.destination);
   that.output.connect(that.panner);
   that.panner.connect(that.audioCtx.destination);
+  // delay
+  that.output.connect(that.delayNode).connect(that.wetlevel).connect(that.audioCtx.destination);
+  that.delayNode.connect(that.feedback).connect(that.delayNode);
+  that.panner.connect(that.drylevel).connect(that.audioCtx.destination)
 }
 function eqSet(that) {
   var frequency = 31.25;
@@ -252,7 +284,7 @@ function assignEvent(that) {
           chorus: that.chorus,
           robot1: that.robot1,
           robot2: that.robot2,
-          reverb: that.reverb,
+          delay: that.delay,
           sound3D: that.sound3D,
         });
         that.videoEl.addEventListener('timeupdate', function() {
@@ -317,9 +349,9 @@ function assignEvent(that) {
         that.makeRobot(message.robot);
         break;
       }
-      case 'makeReverb': {
+      case 'makeDelay': {
         if (!that.hasVideo) {break;}
-        that.makeReverb(message.reverb);
+        that.makeDelay(message.delay);
         break;
       }
       case 'make3DSound': {
