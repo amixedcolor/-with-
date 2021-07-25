@@ -34,6 +34,8 @@
     this.synthSource.buffer = this.buffer;
     this.synthSource.loop = true;
     this.synthSource.start()
+    this.nonDelayMode = this.audioCtx.createGain();
+    this.delayMode = this.audioCtx.createGain();
     // parameter
     this.loop = false;
     this.loopStart = 0;
@@ -65,8 +67,10 @@
     this.panner.coneOuterGain = 1;
     // delay
     this.feedback.gain.value = 0;
-    this.wetlevel.gain.value = 0.4;
-    this.drylevel.gain.value = 0.6;
+    this.wetlevel.gain.value = 0;
+    this.drylevel.gain.value = 0;
+    this.nonDelayMode.gain.value = 1;
+    this.delayMode.gain.value = 0;
 
     assignEvent(this);
 
@@ -146,7 +150,26 @@
       this.jungle_robot2.setPitchOffset(pitchConvert(this.robot2), false);
     },
     makeDelay: function(value) {
-      this.feedback.gain.value = value;
+      if (value === -1){
+        this.feedback.gain.value = 0.85;
+        this.wetlevel.gain.value = 0.4;
+        this.drylevel.gain.value = 0.6;
+        this.nonDelayMode.gain.value = 0;
+        this.delayMode.gain.value = 1;
+      } else if (value === 0){
+        this.feedback.gain.value = 0;
+        this.wetlevel.gain.value = 0;
+        this.drylevel.gain.value = 0;
+        this.nonDelayMode.gain.value = 1;
+        this.delayMode.gain.value = 0;
+      } else if (value === 1){
+        this.feedback.gain.value = 0.95;
+        this.wetlevel.gain.value = 0.4;
+        this.drylevel.gain.value = 0.6;
+        this.nonDelayMode.gain.value = 0;
+        this.delayMode.gain.value = 1;
+      }
+      
     },
     make3DSound: function(value) {
       this.panner.pan.value = value;
@@ -190,8 +213,9 @@ function connectNode(that) {
   that.jungle_robot1.output.connect(that.output);
   that.jungle_robot2.output.connect(that.output);
   that.output.connect(that.panner);
+  that.panner.connect(that.audioCtx.destination);
   // delay
-  that.panner.connect(that.delayNode).connect(that.wetlevel).connect(that.audioCtx.destination);
+  that.output.connect(that.delayNode).connect(that.wetlevel).connect(that.audioCtx.destination);
   that.delayNode.connect(that.feedback).connect(that.delayNode);
   that.panner.connect(that.drylevel).connect(that.audioCtx.destination)
 }

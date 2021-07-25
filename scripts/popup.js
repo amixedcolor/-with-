@@ -134,13 +134,14 @@
   $('#delay-range').on('input', function () {
     var val = Number($(this).val());
     var text;
-    if (val === 89){
+    if (val === -1){
+      text = '弱';
+    } else if (val === 0){
       text = 'なし';
-    } else {
-      text = 'エレクトリック '+(val-89);
+    } else if (val === 1){
+      text = '強';
     }
     $("#delay-num").text(text);
-    val = val > 89 ? val/100 : 0;
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {type: 'makeDelay', delay: val});
     });
