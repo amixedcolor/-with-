@@ -169,7 +169,6 @@
         this.nonDelayMode.gain.value = 0;
         this.delayMode.gain.value = 1;
       }
-      
     },
     make3DSound: function(value) {
       this.panner.pan.value = value;
@@ -212,12 +211,16 @@ function connectNode(that) {
   that.jungle_chorus.output.connect(that.output);
   that.jungle_robot1.output.connect(that.output);
   that.jungle_robot2.output.connect(that.output);
-  that.output.connect(that.panner);
-  that.panner.connect(that.audioCtx.destination);
+  that.output.connect(that.nonDelayMode);
+  that.output.connect(that.delayMode);
   // delay
-  that.output.connect(that.delayNode).connect(that.wetlevel).connect(that.audioCtx.destination);
+  that.delayMode.connect(that.delayNode).connect(that.wetlevel).connect(that.output2);
   that.delayNode.connect(that.feedback).connect(that.delayNode);
-  that.panner.connect(that.drylevel).connect(that.audioCtx.destination)
+  that.delayMode.connect(that.drylevel).connect(that.output2);
+  that.nonDelayMode.connect(that.output2);
+  // panner
+  that.output2.connect(that.panner);
+  that.panner.connect(that.audioCtx.destination);
 }
 function eqSet(that) {
   var frequency = 31.25;
