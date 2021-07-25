@@ -385,7 +385,7 @@ controller range
   margin-right: 10px;
   margin-left: 10px;
   margin-top: 20px;
-  margin-bottom: 20px
+  margin-bottom: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -403,7 +403,14 @@ controller range
           flex-grow: 1; }
 
 .range-wrapper {
-  width: 100%; }
+  width: 80%;
+
+}
+.effect-bar{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 
 .range-head-flex {
   display: -webkit-box;
