@@ -137,7 +137,7 @@
     if (val === 89){
       text = 'なし';
     } else {
-      text = 'ディレイ '+(val-89);
+      text = 'エレクトリック '+(val-89);
     }
     $("#delay-num").text(text);
     val = val > 89 ? val/100 : 0;
